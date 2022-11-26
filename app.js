@@ -2,7 +2,7 @@ const som = document.querySelector("#som")
 const usd = document.querySelector("#usd")
 const eur = document.querySelector("#eur")
 
-const convert = (elem, target) => {
+const convert = (elem, target, target2) => {
     elem.addEventListener("input", () => {
         const request = new XMLHttpRequest()
         request.open("GET", "data.json")
@@ -10,13 +10,20 @@ const convert = (elem, target) => {
         request.send()
         request.addEventListener("load", () => {
             const response = JSON.parse(request.response)
-            target.value = (som.value / response.usd).toFixed(2)
-            target.value = (usd.value / response.som).toFixed(2)
-            target.value = (som.value / response.eur).toFixed(2)
-            target.value = (eur.value / response.som).toFixed(2)
+            if (elem === som) {
+                target.value = (elem.value / response.usd).toFixed(2);
+                target2.value = (elem.value / response.eur).toFixed(2);
+            } else if (elem === usd) {
+                target.value = (elem.value * response.usd).toFixed(2);
+                target2.value = ((elem.value * response.usd)/response.eur).toFixed(2);
+            } else if (elem === eur) {
+                target.value = (elem.value * response.eur).toFixed(2);
+                target2.value = (elem.value * (response.eur / response.usd)).toFixed(2);
+            }
+            elem.value === "" ? (target.value = "") === "" && (target2.value = ""): null;
         })
     })
-}
+};
 
 convert(som, usd)
 convert(usd, som)
