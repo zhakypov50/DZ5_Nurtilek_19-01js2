@@ -20,7 +20,7 @@ const convert = (elem, target, target2) => {
                 target.value = (elem.value * response.eur).toFixed(2);
                 target2.value = (elem.value * (response.eur / response.usd)).toFixed(2);
             }
-            elem.value === "" ? (target.value = "") === "" && (target2.value = ""): null;
+            elem.value === "" ? (target.value = "") && (target2.value = ""): null;
         })
     })
 };
